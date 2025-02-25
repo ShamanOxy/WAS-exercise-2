@@ -1,0 +1,15 @@
+*~
+*.py[cod]
+.tox/
+*.cnf
+build/
+dist/
+pyperplan.egg-info/
+.DS_Store
+
+
+**/__pychache__/*
+
+# Submission artifacts
+submission-exercise-2.zip
+submission-exercise-2.html

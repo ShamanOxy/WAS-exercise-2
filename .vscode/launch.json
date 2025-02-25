@@ -1,0 +1,159 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Task 2.1: BFS — Blocks World Example",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/task-2/plan.py",
+      "args": [
+        "-s", "bfs",
+        "${workspaceFolder}/task-2/examples/blocks-world-domain.pddl",
+        "${workspaceFolder}/task-2/examples/blocks-world-problem.pddl"
+      ],
+      "cwd": "${workspaceFolder}/task-2",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Task 2.1: BFS — Task 1.1 Domain",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/task-2/plan.py",
+      "args": [
+        "-s", "bfs",
+        "${workspaceFolder}/task-1/task-1-1/domain.pddl",
+        "${workspaceFolder}/task-1/task-1-1/problem.pddl"
+      ],
+      "cwd": "${workspaceFolder}/task-2",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Task 2.1: BFS — Task 1.2 Domain",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/task-2/plan.py",
+      "args": [
+        "-s", "bfs",
+        "${workspaceFolder}/task-1/task-1-2/domain.pddl",
+        "${workspaceFolder}/task-1/task-1-2/problem.pddl"
+      ],
+      "cwd": "${workspaceFolder}/task-2",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Task 2.2: A* — Blocks World Example",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/task-2/plan.py",
+      "args": [
+        "-s", "astar",
+        "${workspaceFolder}/task-2/examples/blocks-world-domain.pddl",
+        "${workspaceFolder}/task-2/examples/blocks-world-problem.pddl"
+      ],
+      "cwd": "${workspaceFolder}/task-2",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Task 2.2: A* — Task 1.1 Domain",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/task-2/plan.py",
+      "args": [
+        "-s", "astar",
+        "${workspaceFolder}/task-1/task-1-1/domain.pddl",
+        "${workspaceFolder}/task-1/task-1-1/problem.pddl"
+      ],
+      "cwd": "${workspaceFolder}/task-2",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Task 2.2: A* — Task 1.2 Domain",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/task-2/plan.py",
+      "args": [
+        "-s", "astar",
+        "${workspaceFolder}/task-1/task-1-2/domain.pddl",
+        "${workspaceFolder}/task-1/task-1-2/problem.pddl"
+      ],
+      "cwd": "${workspaceFolder}/task-2",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Task 3: BFS — Sussman Anomaly",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/task-2/plan.py",
+      "args": [
+        "-s", "bfs",
+        "${workspaceFolder}/task-3/t3-domain.pddl",
+        "${workspaceFolder}/task-3/t3-problem.pddl"
+      ],
+      "cwd": "${workspaceFolder}/task-2",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Task 3: A* — Sussman Anomaly",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/task-2/plan.py",
+      "args": [
+        "-s", "astar",
+        "${workspaceFolder}/task-3/t3-domain.pddl",
+        "${workspaceFolder}/task-3/t3-problem.pddl"
+      ],
+      "cwd": "${workspaceFolder}/task-2",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Custom: Pick Search + Files",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/task-2/plan.py",
+      "args": [
+        "-s", "${input:searchAlgorithm}",
+        "${input:domainFile}",
+        "${input:problemFile}"
+      ],
+      "cwd": "${workspaceFolder}/task-2",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Submit: ZIP for Canvas",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/submit_zip.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Submit: PDF for Canvas",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/submit_pdf.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "searchAlgorithm",
+      "description": "Search algorithm",
+      "type": "pickString",
+      "options": ["bfs", "astar", "wastar", "gbf", "ehs", "ids", "sat"],
+      "default": "bfs"
+    },
+    {
+      "id": "domainFile",
+      "description": "Path to domain PDDL file",
+      "type": "promptString",
+      "default": "task-2/examples/blocks-world-domain.pddl"
+    },
+    {
+      "id": "problemFile",
+      "description": "Path to problem PDDL file",
+      "type": "promptString",
+      "default": "task-2/examples/blocks-world-problem.pddl"
+    }
+  ]
+}
