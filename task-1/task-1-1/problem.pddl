@@ -12,7 +12,7 @@
 ; Upgrade transfers require proving at the source club first.
 ; Lateral transfers (sideways/down moves) do not require proving.
 ;
-; Season budget: 6 seasons (age 22→28)
+; Season budget: 7 seasons (age 22→29)
 
 
 (define (problem vogt-career)
@@ -38,6 +38,7 @@
     (next-age age25 age26)
     (next-age age26 age27)
     (next-age age27 age28)
+    (next-age age28 age29)
 
     ; === Upgrade transfers (require proving at the source club) ===
 
@@ -92,6 +93,6 @@
 
   (:goal (and
     (at vogt real-madrid)
-    (age-of vogt age28)
+    (age-of vogt age29)
   ))
 )
