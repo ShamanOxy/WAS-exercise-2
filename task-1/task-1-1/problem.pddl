@@ -21,7 +21,7 @@
   (:objects
     vogt - player
     st-gallen augsburg hoffenheim leipzig dortmund bayern leeds arsenal real-madrid - club
-    age22 age23 age24 age25 age26 age27 age28 - age
+    age22 age23 age24 age25 age26 age27 age28 age29 - age
   )
 
   (:init
