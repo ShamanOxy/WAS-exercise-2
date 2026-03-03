@@ -57,6 +57,7 @@ class Operator:
         @return True if the operator's preconditions is a subset of the state,
                 False otherwise
         """
+        # check if all preconditions are in the state
         return self.preconditions.issubset(state)
 
     # ---- Step 2 ----
@@ -75,9 +76,11 @@ class Operator:
         @return A new state (set of predicates) after the application of the
                 operator
         """
-        new_state = state - self.del_effects
-        new_state = new_state | self.add_effects
-        return new_state
+        # remove delete effects first
+        result = state - self.del_effects
+        # then add the add effects
+        result = result | self.add_effects
+        return result
 
     def __eq__(self, other):
         return (
@@ -134,6 +137,7 @@ class Task:
         @param state A state
         @return True if all the goals are reached, False otherwise
         """
+        # check if all goals are satisfied
         return self.goals.issubset(state)
 
     # ---- Step 4 ----
@@ -152,12 +156,12 @@ class Task:
         operator and "new_state" the state that results when "op" is applied
         in state "state".
         """
-        successors = []
+        result = []
         for op in self.operators:
             if op.applicable(state):
-                new_state = op.apply(state)
-                successors.append((op, new_state))
-        return successors
+                next_state = op.apply(state)
+                result.append((op, next_state))
+        return result
 
     def __str__(self):
         s = "Task {0}\n  Vars:  {1}\n  Init:  {2}\n  Goals: {3}\n  Ops:   {4}"

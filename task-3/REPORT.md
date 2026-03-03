@@ -2,43 +2,43 @@
 
 ## 1. What is the anomaly that occurs when solving the problem in the domain?
 
-The Sussman Anomaly occurs when the planner first moves to `room1` (appearing to make progress toward the goal of cleaning it), but then must leave `room1` to go to `storage1` to get the hoover, and then return to `room1` to actually clean it. This creates an inefficient plan where progress toward one goal (being at room1) is temporarily undone to achieve a prerequisite (getting the hoover), then re-achieved.
+The Sussman Anomaly happens when the planner moves to room1 first (thinking it's making progress), but then has to leave room1 to go get the hoover from storage1, and then come back to room1 to clean it. So basically it's backtracking - it makes progress toward one goal (being at room1) but then has to undo that progress to get something else it needs (the hoover), and then redo the progress.
 
-The solution shows this pattern: `(move reception1 room1)` → `(move room1 storage1)` → `(gethoover storage1)` → `(move storage1 room1)` → `(cleanroom room1)`. The worker visits room1 twice, demonstrating the backtracking behavior characteristic of the anomaly.
+Looking at the solution: `(move reception1 room1)` → `(move room1 storage1)` → `(gethoover storage1)` → `(move storage1 room1)` → `(cleanroom room1)`. The worker goes to room1, leaves it, then comes back. This is inefficient backtracking which is what the anomaly is about.
 
 ## 2. Under what circumstances does generally the anomaly occur in classical STRIPS planning?
 
-The Sussman Anomaly occurs when:
-- Multiple goals or subgoals are interdependent
-- Achieving one goal requires temporarily undoing progress made toward another goal
-- The planner uses a goal-stacking approach that doesn't recognize these dependencies upfront
-- The planner processes goals sequentially without considering that achieving one goal's prerequisites might conflict with another goal's prerequisites
+The anomaly usually happens when:
+- You have multiple goals that depend on each other
+- To achieve one goal, you have to undo progress on another goal temporarily
+- The planner uses goal-stacking and doesn't see the dependencies between goals ahead of time
+- Goals are processed one at a time without thinking about how they might conflict
 
-In classical STRIPS planning, this often happens with goal-stacking algorithms that select goals arbitrarily and work on them one at a time, without analyzing the full dependency structure between goals.
+This is common with goal-stacking planners that just pick goals randomly and work on them one by one, without looking at how the goals relate to each other.
 
 ## 3. What specifically in the problem and the domain make it susceptible?
 
-The domain makes the problem susceptible because:
-- **Action dependencies**: The `cleanRoom` action requires both `(at room1)` AND `(haveHoover)` as preconditions
-- **Resource location**: The hoover is located at `storage1`, which is different from `room1`
-- **Mutual exclusivity**: The `at` predicate can only hold for one location at a time (moving sets `(at ?y)` and removes `(at ?x)`)
-- **Sequential prerequisites**: To clean room1, you must first be at storage1 (to get hoover), then be at room1 (to clean)
+The domain is set up in a way that causes the problem:
+- The `cleanRoom` action needs both `(at room1)` AND `(haveHoover)` - so you need two things
+- The hoover is at `storage1`, not at `room1` where you need to clean
+- The `at` predicate can only be true for one place at a time - you can't be in two places
+- So to clean room1, you need to: go to storage1 to get hoover, then go to room1 to clean
 
-The problem instance is susceptible because:
-- The worker starts at `reception1`, far from both `room1` (goal location) and `storage1` (hoover location)
-- The goal only requires cleaning `room1`, creating a single focused objective that masks the underlying dependency structure
-- The planner might initially think "I need to be at room1" and move there, only to discover later that it also needs the hoover from storage1
+The specific problem instance makes it worse:
+- The worker starts at `reception1`, which is far from both `room1` (where you need to clean) and `storage1` (where the hoover is)
+- The goal is just to clean room1, so the planner might think "I'll just go to room1" without realizing it also needs the hoover
+- This makes the planner likely to go to room1 first, then realize it needs the hoover and backtrack
 
 ## 4. Why is the behavior not observable with your planner implementation from Task 2?
 
-The behavior may not be observable with our planner implementation from Task 2 because:
+Our planner from Task 2 probably won't show this anomaly because:
 
-1. **A* search with heuristics**: Our planner uses A* search with heuristic functions that estimate the cost to reach the goal. These heuristics likely consider all goal requirements simultaneously, guiding the search toward states that satisfy multiple prerequisites efficiently.
+1. **A* with heuristics**: We're using A* search which uses heuristics to estimate how far we are from the goal. These heuristics look at all the goal requirements at once, not just one at a time, so they guide the search better.
 
-2. **State-space search**: Unlike goal-stacking planners, our planner explores the entire state space systematically. It evaluates states based on their total estimated cost (g + h), which naturally considers all goal requirements together rather than focusing on one goal at a time.
+2. **State-space search**: Our planner explores the whole state space systematically. It looks at states based on g + h (actual cost + estimated cost), which means it considers everything together rather than focusing on one goal.
 
-3. **Heuristic guidance**: The heuristic functions (like `hadd`, `hff`, `hmax`) used in our planner compute estimates based on relaxed planning problems that consider all goal predicates simultaneously. This helps the planner recognize dependencies early and avoid inefficient backtracking.
+3. **Heuristic functions**: The heuristics we use (like hff, hadd, hmax) work by solving relaxed versions of the problem that consider all goals at the same time. This helps the planner see dependencies early and avoid backtracking.
 
-4. **Optimal search**: A* with an admissible heuristic guarantees finding optimal solutions, which means it will naturally avoid the inefficient backtracking that characterizes the Sussman Anomaly, even if it explores more states initially.
+4. **Optimal search**: A* with a good heuristic finds optimal solutions, so it naturally avoids the inefficient backtracking that causes the anomaly.
 
-In contrast, goal-stacking planners that process goals sequentially are more prone to the anomaly because they commit to achieving goals one at a time without considering the full dependency structure.
+Goal-stacking planners are more likely to have this problem because they work on goals one at a time without seeing how they're connected.

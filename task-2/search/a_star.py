@@ -240,6 +240,7 @@ def astar_search(
                 #     Else, continue to a new round (the next neighbor state), since we can 
                 #     already reach the state in a cheaper way discovered in the past.
                 neighbor_g = neighbor_node.g
+                # check if we found a better path to this state
                 best_cost = state_cost.get(successor_state, float('inf'))
                 
                 if neighbor_g < best_cost:

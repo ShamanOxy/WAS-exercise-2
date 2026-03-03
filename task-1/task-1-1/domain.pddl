@@ -12,6 +12,7 @@
     (worker-available ?t - time)
   )
   
+  ; action to schedule an inhabitant at a specific time
   (:action showRoom
     :parameters (?i - inhabitant ?r - room ?t - time)
     :precondition (and
@@ -21,7 +22,7 @@
     )
     :effect (and
       (scheduled ?i)
-      (not (worker-available ?t))
+      (not (worker-available ?t))  ; worker becomes busy at this time
     )
   )
 )

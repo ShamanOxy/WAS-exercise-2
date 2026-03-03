@@ -14,6 +14,7 @@
     (at-room ?r - room ?t - time)
   )
   
+  ; first unlock the room
   (:action unlock
     :parameters (?r - room ?t - time)
     :precondition (and
@@ -24,6 +25,7 @@
     )
   )
   
+  ; then join/enter the room
   (:action join
     :parameters (?r - room ?t - time)
     :precondition (and
@@ -35,12 +37,13 @@
     )
   )
   
+  ; finally show the room to the inhabitant
   (:action showRoom
     :parameters (?i - inhabitant ?r - room ?t - time)
     :precondition (and
       (can-arrive ?i ?t)
       (assigned-room ?i ?r)
-      (at-room ?r ?t)
+      (at-room ?r ?t)  ; need to be at the room first
       (worker-available ?t)
     )
     :effect (and
